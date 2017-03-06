@@ -1,0 +1,12 @@
+﻿{
+  "LanguageName": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français"
+  },
+  "[TranslateMe.Examples.MainWindow].lblCurrentLanguage[Label].Content": {
+    "en": "Current language",
+    "es": "Lenguaje actual",
+    "fr": "Langue courrante"
+  }
+}

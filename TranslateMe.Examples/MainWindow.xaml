@@ -1,0 +1,31 @@
+﻿<Window x:Class="TranslateMe.Examples.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TranslateMe.Examples"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignData Type=local:MainViewModel, IsDesignTimeCreatable=False}"
+        DataContext="{x:Static local:MainViewModel.Instance}"
+        Title="TranslateMe Examples" Height="350" Width="525">
+    <DockPanel Margin="10">
+        <DockPanel DockPanel.Dock="Top" VerticalAlignment="Top">
+            <Label x:Name="lblCurrentLanguage" 
+                   DockPanel.Dock="Left"
+                   Margin="0,0,10,0"
+                   Content="{Tr DefaultText='Current Language'}" />
+            <ComboBox ItemsSource="{Binding LanguagesManager.AvailableLanguages}" 
+                      SelectedItem="{Binding LanguagesManager.CurrentLanguage}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Tr 'Language Name', TextId='LanguageName', IsDynamic=False, LanguageId='en'}" FontWeight="Bold" />
+                            <TextBlock  Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </DockPanel>
+        <StackPanel></StackPanel>
+    </DockPanel>
+</Window>
