@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper\ServiceProviderForTests.cs" />
-    <Compile Include="TrMarkupTests.cs" />
+    <Compile Include="TranslateMeWPFTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +60,10 @@
     <ProjectReference Include="..\TranslateMe.WPF\TranslateMe.WPF.csproj">
       <Project>{0216b837-a57e-4d4a-815a-c0404cd3c642}</Project>
       <Name>TranslateMe.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TranslateMe\TranslateMe.csproj">
+      <Project>{bfb032e1-2c4f-4288-b1de-5726338b2888}</Project>
+      <Name>TranslateMe</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
