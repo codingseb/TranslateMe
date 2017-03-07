@@ -1,4 +1,6 @@
-﻿namespace System
+﻿using System;
+
+namespace TranslateMe
 {
     public class TMLanguageChangedEventArgs : EventArgs
     {

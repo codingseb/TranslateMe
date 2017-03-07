@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace System
+namespace TranslateMe
 {
     public class TMLanguageChangingEventArgs : CancelEventArgs
     {

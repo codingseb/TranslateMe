@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:tm="clr-namespace:TranslateMe;assembly=TranslateMe"
         xmlns:local="clr-namespace:TranslateMe.Examples"
         mc:Ignorable="d"
         d:DataContext="{d:DesignData Type=local:MainViewModel, IsDesignTimeCreatable=False}"
@@ -17,10 +18,10 @@
             <ComboBox ItemsSource="{Binding LanguagesManager.AvailableLanguages}" 
                       SelectedItem="{Binding LanguagesManager.CurrentLanguage}">
                 <ComboBox.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="ComboBoxItem">
                         <StackPanel>
-                            <TextBlock Text="{Tr 'Language Name', TextId='LanguageName', IsDynamic=False, LanguageId='en'}" FontWeight="Bold" />
-                            <TextBlock  Text="{Binding}" />
+                            <!--<TextBlock DataContext="{DynamicResource LanguageName}" Text="{Binding Value, Mode=OneWay}" FontWeight="Bold" />-->
+                            <TextBlock Text="{Binding}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>

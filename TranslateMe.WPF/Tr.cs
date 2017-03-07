@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Reflection;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Markup;
 
 [assembly: XmlnsDefinition("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "TranslateMe.WPF")]
@@ -170,5 +168,6 @@ namespace TranslateMe.WPF
 
             return TM.Tr(TextId, DefaultText, LanguageId);
         }
+
     }
 }
