@@ -15,7 +15,8 @@
                    DockPanel.Dock="Left"
                    Margin="0,0,10,0"
                    Content="{Tr DefaultText='Current Language'}" />
-            <ComboBox ItemsSource="{Binding LanguagesManager.AvailableLanguages}" 
+            <ComboBox x:Name="cbLanguageSelection"
+                      ItemsSource="{Binding LanguagesManager.AvailableLanguages}" 
                       SelectedItem="{Binding LanguagesManager.CurrentLanguage}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="ComboBoxItem">
