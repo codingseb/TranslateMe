@@ -56,5 +56,15 @@ namespace TranslateMe
                     AddFile(fileName);
                 });
         }
+
+        /// <summary>
+        /// Empty All Dictionnaries
+        /// </summary>
+        public static void ClearAllTranslations()
+        {
+            TM.Instance.TranslationsDictionary.Clear();
+            TM.Instance.AvailableLanguages.Clear();
+            TM.Instance.MissingTranslations.Clear();
+        }
     }
 }

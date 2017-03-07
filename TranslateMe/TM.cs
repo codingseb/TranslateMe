@@ -29,7 +29,10 @@ namespace TranslateMe
             }
         }
 
-        private TM()
+        /// <summary>
+        /// Just For Testing purposes. Prefer the static property Instance
+        /// </summary>
+        public TM()
         {}
 
         private ObservableCollection<string> availableLanguages = new ObservableCollection<string>();
@@ -83,7 +86,7 @@ namespace TranslateMe
 
         private SortedDictionary<string, SortedDictionary<string,string>> translationsDictionary = 
             new SortedDictionary<string, SortedDictionary<string,string>>();
-        internal SortedDictionary<string, SortedDictionary<string, string>> TranslationsDictionary
+        public SortedDictionary<string, SortedDictionary<string, string>> TranslationsDictionary
         {
             get
             {
