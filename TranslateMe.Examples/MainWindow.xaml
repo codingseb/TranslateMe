@@ -20,13 +20,30 @@
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="ComboBoxItem">
                         <StackPanel>
-                            <!--<TextBlock DataContext="{DynamicResource LanguageName}" Text="{Binding Value, Mode=OneWay}" FontWeight="Bold" />-->
+                            <TextBlock Text="{Binding Converter={TrLanguageIdConverter TextId='LanguageName' }}" FontWeight="Bold" />
                             <TextBlock Text="{Binding}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </DockPanel>
-        <StackPanel></StackPanel>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" >
+                <StackPanel>
+                    <Label x:Name="lblHelloInCurrentLanguageEn" 
+                               Content="{Tr IsDynamic=False, LanguageId='en', TextId='HelloInCurrentLanguage'}" />
+                    <Label x:Name="lblHelloInCurrentLanguageFr" 
+                               Content="{Tr IsDynamic=False, LanguageId='fr', TextId='HelloInCurrentLanguage'}" />
+                    <Label x:Name="lblHelloInCurrentLanguageEs" 
+                               Content="{Tr IsDynamic=False, LanguageId='es', TextId='HelloInCurrentLanguage'}" />
+                </StackPanel>
+                <Label BorderBrush="Black" 
+                       BorderThickness="1" 
+                       x:Name="lblHelloInCurrentLanguage" 
+                       Content="{Tr DefaultText='HelloInCurrentLanguage'}"
+                       ToolTip="{Tr}"
+                       VerticalAlignment="Center" Margin="5,0"/>
+            </StackPanel>
+        </StackPanel>
     </DockPanel>
 </Window>
