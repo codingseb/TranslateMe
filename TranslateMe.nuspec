@@ -13,16 +13,16 @@
     <releaseNotes></releaseNotes>
     <copyright>Copyright &#x00A9; Coding Seb.  All rights reserved.</copyright>
     <tags>wpf translateme translate me translation language multi-language translator internationalization</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="9.0.1" />
+    </dependencies>
+    <references>
+      <reference file="TranslateMe.dll" />
+      <reference file="TranslateMe.WPF.dll" />
+    </references>
   </metadata>
   <files>
 	<file src="TranslateMe\bin\$configuration$\TranslateMe.dll" target="lib\net40\" />
 	<file src="TranslateMe.WPF\bin\$configuration$\TranslateMe.WPF.dll" target="lib\net40\" />
   </files>
-  <dependencies>
-    <dependency id="Newtonsoft.Json" version="9.0.1" />
-  </dependencies>
-  <references>
-      <reference file="TranslateMe.dll" />
-      <reference file="TranslateMe.WPF.dll" />
-    </references>
 </package>
