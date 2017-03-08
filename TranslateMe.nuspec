@@ -22,7 +22,7 @@
     </references>
   </metadata>
   <files>
-	<file src="TranslateMe\bin\$configuration$\TranslateMe.dll" target="lib\net40\" />
-	<file src="TranslateMe.WPF\bin\$configuration$\TranslateMe.WPF.dll" target="lib\net40\" />
+	<file src="TranslateMe\bin\$configuration$\TranslateMe.dll" target="Build\lib\net40\" />
+	<file src="TranslateMe.WPF\bin\$configuration$\TranslateMe.WPF.dll" target="Build\lib\net40\" />
   </files>
 </package>
