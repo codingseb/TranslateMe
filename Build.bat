@@ -14,6 +14,8 @@ if "%nuget%" == "" (
 	set nuget=nuget
 )
 
+%nuget% restore TranslateMe.sln
+
 "C:\Program Files (x86)\MSBuild\14.0\Bin\MsBuild" TranslateMe.sln /p:Configuration="%config%" /m /v:M /fl /flp:LogFile=msbuild.log;Verbosity=diag /nr:false
 
 mkdir Build
