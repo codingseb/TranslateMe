@@ -16,13 +16,9 @@
     <dependencies>
       <dependency id="Newtonsoft.Json" version="9.0.1" />
     </dependencies>
-    <references>
-      <reference file="TranslateMe.dll" />
-      <reference file="TranslateMe.WPF.dll" />
-    </references>
   </metadata>
   <files>
-	<file src="TranslateMe\bin\$configuration$\TranslateMe.dll" target="Build\lib\net40\" />
-	<file src="TranslateMe.WPF\bin\$configuration$\TranslateMe.WPF.dll" target="Build\lib\net40\" />
+    <file src="TranslateMe.WPF\bin\$configuration$\TranslateMe.WPF.dll" target="lib\net452\TranslateMe.WPF.dll" />
+	<file src="TranslateMe\bin\$configuration$\TranslateMe.dll" target="lib\net452\TranslateMe.dll" />
   </files>
 </package>

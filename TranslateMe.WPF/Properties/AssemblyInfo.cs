@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TranslateMe.WPF")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Use TranslateMe directly in WPF XAML")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Coding SEB")]
 [assembly: AssemblyProduct("TranslateMe.WPF")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright ©  2017 Coding Seb")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
