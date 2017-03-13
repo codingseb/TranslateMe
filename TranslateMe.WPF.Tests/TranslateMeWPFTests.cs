@@ -25,7 +25,7 @@ namespace TranslateMe.WPF.Tests
         {
             Tr tr = new Tr("Test");
 
-            tr.ProvideValue(new ServiceProviderForTests()).ToString().Equals("Test");
+            tr.ProvideValue(new ServiceProviderForTests()).ToString().ShouldEqual("Test");
         }
 
         [Category("Converter")]

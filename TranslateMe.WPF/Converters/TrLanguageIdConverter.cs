@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace TranslateMe.WPF
 {
     /// <summary>
     /// Converter to Translate a specific TextId in the Binding LanguageId.
-    /// If Translation don't exist return DefaultText
+    /// If Translation don't exist return DefaultText.
+    /// Not usable in TwoWay Binding mode.
     /// </summary>
-    public class TrLanguageIdConverter : TrBaseConverter, IValueConverter
+    public class TrLanguageIdConverter : TrWithTextIdAndDefaultTextProperty, IValueConverter
     {
-        public string DefaultText { get; set; }
-        public string TextId { get; set; }
+        public TrLanguageIdConverter()
+        {
+            IsDynamic = false;
+        }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -21,6 +25,10 @@ namespace TranslateMe.WPF
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+
+        protected override void CurrentLanguageChanged(object sender, TMLanguageChangedEventArgs e)
+        {
         }
     }
 }
