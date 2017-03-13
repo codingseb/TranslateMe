@@ -111,5 +111,5 @@ So you can change the text of your app or translate it in a new language without
 // or you can also load a translation by code (textId, languageId, value)
 TMLanguagesLoader.AddTranslation(""SayHello"", "en", "Hello" );
 TMLanguagesLoader.AddTranslation(""SayHello"", "es", "Hola" );
-TMLanguagesLoader.AddTranslation(""SayHello"", "fr", "Bonjour" );
+TMLanguagesLoader.AddTranslation("SayHello", "fr", "Bonjour" );
 ```
