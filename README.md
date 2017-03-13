@@ -58,6 +58,6 @@ TM.Instance.CurrentLanguage = "es";
 Collection<string> languages = TM.Instance.AvailableLanguages;
 ```
 
-** Remark : By default the translation made in the XAML are automatically updated when Current language changed**
-
 To see How to do it in XAML look at the "TranslateMe.Examples" project in the solution.
+
+*Remark : By default the translation made in the XAML are automatically updated when Current language changed*
