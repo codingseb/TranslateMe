@@ -58,6 +58,58 @@ TM.Instance.CurrentLanguage = "es";
 Collection<string> languages = TM.Instance.AvailableLanguages;
 ```
 
-To see How to do it in XAML look at the "TranslateMe.Examples" project in the solution.
+To see how to do it in XAML look at the "TranslateMe.Examples" project in the solution.
 
 *Remark : By default the translation made in the XAML are automatically updated when Current language changed*
+
+## OK But... ...How I define my translations ?
+Translations are defined in JSON files with the extension "*.tm.json".
+
+Here an example :
+
+```json
+{
+  "LanguageName": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français"
+  },
+  "[TranslateMe.Examples.MainWindow].lblCurrentLanguage[Label].Content": {
+    "en": "Current language",
+    "es": "Lenguaje actual",
+    "fr": "Langue courrante"
+  },
+  "[TranslateMe.Examples.MainWindow].lblHelloInCurrentLanguage[Label].Content": {
+    "en": "Hello",
+    "es": "Hola",
+    "fr": "Bonjour"
+  },
+  "HelloInCurrentLanguage": {
+    "en": "Hello in the current language",
+    "es": "Hola en la lengua actual",
+    "fr": "Bonjour dans la langue actuelle"
+  },
+  "[TranslateMe.Examples.MainWindow].lblHelloInCurrentLanguage[Label].ToolTip": {
+    "en": "In english",
+    "es": "En español",
+    "fr": "En français"
+  }
+}
+```
+
+And to load it :
+
+```csharp
+TMLanguagesLoader.AddFile(@"PathToTheFile\Example1.tm.json");
+// or load directly a directory with multiple "*.tm.json" files.
+TMLanguagesLoader.AddDirectory(@"PathToTheDirectory");
+```
+
+So you can change the text of your app or translate it in a new language without recompile all your application.
+
+```csharp
+// or you can also load a translation by code (textId, languageId, value)
+TMLanguagesLoader.AddTranslation(""SayHello"", "en", "Hello" );
+TMLanguagesLoader.AddTranslation(""SayHello"", "es", "Hola" );
+TMLanguagesLoader.AddTranslation(""SayHello"", "fr", "Bonjour" );
+```
