@@ -23,5 +23,25 @@
     "en": "In english",
     "es": "En español",
     "fr": "En français"
+  },
+  "Text:Hello": {
+    "en": "Hello",
+    "es": "Hola",
+    "fr": "Bonjour"
+  },
+  "Text:HowAreYou": {
+    "en": "How are you ?",
+    "es": "¿Cómo estás?",
+    "fr": "Comment allez-vous?"
+  },
+  "Text:Yes": {
+    "en": "Yes",
+    "es": "Si",
+    "fr": "Oui"
+  },
+  "Text:No": {
+    "en": "No",
+    "es": "No",
+    "fr": "Non"
   }
 }

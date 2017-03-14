@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Globalization;
+using System.Reflection;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Markup;
+using System.Xaml;
 
 namespace TranslateMe.WPF
 {
@@ -9,8 +14,13 @@ namespace TranslateMe.WPF
     /// If Translation don't exist return DefaultText
     /// Not usable in TwoWay Binding mode.
     /// </summary>
-    public class TrTextIdConverter : TrBaseClass, IValueConverter
+    public class TrTextIdConverter : MarkupExtension, IValueConverter
     {
+        public TrTextIdConverter()
+        {
+            SubscribeToLanguageChange();
+        }
+
         /// <summary>
         /// The text to return if no text correspond to textId in the current language
         /// </summary>
@@ -26,7 +36,7 @@ namespace TranslateMe.WPF
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             textId = value as string;
-            return TM.Tr(textId, DefaultText, LanguageId);
+            return string.IsNullOrEmpty(textId) ? "" : TM.Tr(textId, DefaultText, LanguageId);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -34,12 +44,83 @@ namespace TranslateMe.WPF
             throw new NotImplementedException();
         }
 
-        protected override void CurrentLanguageChanged(object sender, TMLanguageChangedEventArgs e)
+        FrameworkElement xamlTargetObject;
+        DependencyProperty xamlDependencyProperty;
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (IsDynamic && targetObject != null && targetProperty != null)
+            try
             {
-                targetObject.SetValue(targetProperty, TM.Tr(textId, DefaultText, LanguageId));
+                var xamlContext = serviceProvider.GetType()
+                    .GetRuntimeFields().ToList()
+                    .Find(f => f.Name.Equals("_xamlContext"))
+                    .GetValue(serviceProvider);
+
+                xamlTargetObject = xamlContext.GetType()
+                    .GetProperty("GrandParentInstance")
+                    .GetValue(xamlContext) as FrameworkElement;
+
+                var xamlProperty = xamlContext.GetType()
+                    .GetProperty("GrandParentProperty")
+                    .GetValue(xamlContext);
+
+                xamlDependencyProperty = xamlProperty.GetType()
+                    .GetProperty("DependencyProperty")
+                    .GetValue(xamlProperty) as DependencyProperty;
             }
+            catch { }
+
+            return this;
+        }
+
+        private bool isDynamic = true;
+        /// <summary>
+        /// If set to true, The text will automatically be update when Current Language Change.
+        /// If not the property must be updated manually.
+        /// By default is set to true.
+        /// </summary>
+        public bool IsDynamic
+        {
+            get { return isDynamic; }
+            set
+            {
+                if (isDynamic != value)
+                {
+                    isDynamic = value;
+
+                    if (isDynamic)
+                    {
+                        SubscribeToLanguageChange();
+                    }
+                    else
+                    {
+                        UnsubscribeFromLanguageChange();
+                    }
+                }
+            }
+        }
+
+        protected void SubscribeToLanguageChange()
+        {
+            TM.CurrentLanguageChanged += CurrentLanguageChanged;
+        }
+
+        protected void UnsubscribeFromLanguageChange()
+        {
+            TM.CurrentLanguageChanged -= CurrentLanguageChanged;
+        }
+
+        private void CurrentLanguageChanged(object sender, TMLanguageChangedEventArgs e)
+        {
+            if (IsDynamic && xamlTargetObject != null && xamlDependencyProperty != null)
+            {
+                xamlTargetObject.GetBindingExpression(xamlDependencyProperty)?.UpdateTarget();
+            }
+        }
+
+        public virtual void Dispose()
+        {
+            UnsubscribeFromLanguageChange();
         }
     }
 }

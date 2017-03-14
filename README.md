@@ -60,7 +60,7 @@ Collection<string> languages = TM.Instance.AvailableLanguages;
 
 To see how to do it in XAML look at the "TranslateMe.Examples" project in the solution.
 
-*Remark : By default the translation made in the XAML are automatically updated when Current language changed*
+*Remark : By default the translation made in the XAML are automatically updated when current language changed*
 
 ## OK But... ...How I define my translations ?
 Translations are defined in JSON files with the extension "*.tm.json".

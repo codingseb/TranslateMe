@@ -45,6 +45,9 @@
                        ToolTip="{Tr}"
                        VerticalAlignment="Center" Margin="5,0"/>
             </StackPanel>
+            <ComboBox ItemsSource="{Binding Labels}" SelectedItem="{Binding Label}" />
+            <Label BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"
+                   Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>
         </StackPanel>
     </DockPanel>
 </Window>

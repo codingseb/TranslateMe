@@ -10,12 +10,18 @@ namespace TranslateMe.WPF
     /// If Translation don't exist return DefaultText.
     /// Not usable in TwoWay Binding mode.
     /// </summary>
-    public class TrLanguageIdConverter : TrWithTextIdAndDefaultTextProperty, IValueConverter
+    public class TrLanguageIdConverter : MarkupExtension, IValueConverter
     {
-        public TrLanguageIdConverter()
-        {
-            IsDynamic = false;
-        }
+        /// <summary>
+        /// To force the use of a specific identifier
+        /// </summary>
+        public virtual string TextId { get; set; } = null;
+
+        /// <summary>
+        /// The text to return if no text correspond to textId in the current language
+        /// </summary>
+        [ConstructorArgument("defaultText")]
+        public string DefaultText { get; set; } = null;
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -27,8 +33,9 @@ namespace TranslateMe.WPF
             throw new NotImplementedException();
         }
 
-        protected override void CurrentLanguageChanged(object sender, TMLanguageChangedEventArgs e)
+        public override object ProvideValue(IServiceProvider serviceProvider)
         {
+            return this;
         }
     }
 }

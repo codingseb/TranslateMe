@@ -48,10 +48,8 @@
     <Compile Include="Helper\VisualTreeHelper.cs" />
     <Compile Include="Tr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TrBaseClass.cs" />
     <Compile Include="Converters\TrLanguageIdConverter.cs" />
     <Compile Include="Converters\TrTextIdConverter.cs" />
-    <Compile Include="TrWithTextIdAndDefaultTextProperty.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TranslateMe\TranslateMe.csproj">
