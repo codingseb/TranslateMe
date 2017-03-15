@@ -113,3 +113,12 @@ TMLanguagesLoader.AddTranslation("SayHello", "en", "Hello" );
 TMLanguagesLoader.AddTranslation("SayHello", "es", "Hola" );
 TMLanguagesLoader.AddTranslation("SayHello", "fr", "Bonjour" );
 ```
+
+## Find Missing Translations
+You can activate an option to generate a file with all missing translations. 
+
+```csharp
+// This will create a file named "TMMissingTranslations.json" in the directory of your assembly
+// with all TextId and LanguageId that are missing when you trying to translate them.
+TM.Instance.LogOutMissingTranslations = true;
+```

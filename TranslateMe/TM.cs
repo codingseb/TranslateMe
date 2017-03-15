@@ -144,17 +144,11 @@ namespace TranslateMe
             return result;
         }
 
-        private bool logOutMissingTranslations = false;
-
         /// <summary>
         /// For developpers, for developement and/or debug time.
         /// If set to <c>True</c> Log Out in a file automatically all textId asked to be translate but missing.
         /// </summary>
-        public bool LogOutMissingTranslations
-        {
-            get { return logOutMissingTranslations; }
-            set { logOutMissingTranslations = value; }
-        }
+        public bool LogOutMissingTranslations { get; set; } = false;
 
         private SortedDictionary<string, SortedDictionary<string, string>> missingTranslations = new SortedDictionary<string, SortedDictionary<string, string>>();
 
