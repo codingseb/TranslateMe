@@ -18,7 +18,7 @@ Simply clone this repository
 
 ## Simple Use
 
-###In C# :
+### In C# :
 
 ```csharp
 using TranslateMe;
@@ -34,7 +34,7 @@ string translatedText = TM.Tr(textId,defaultText);
 string translatedText = TM.Tr(textId, defaultText, languageId);
 ```
 
-###In XAML (WPF) :
+### In XAML (WPF) :
 (no xmlns needed Tr Markup is available as soon as TranslateMe and TranslateMe.WPF are in project's references)
 
 ```xml
