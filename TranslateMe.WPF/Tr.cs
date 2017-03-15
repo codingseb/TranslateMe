@@ -2,11 +2,6 @@
 using System.Windows;
 using System.Windows.Markup;
 
-[assembly: XmlnsDefinition("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "TranslateMe.WPF")]
-[assembly: XmlnsDefinition("http://schemas.microsoft.com/winfx/2007/xaml/presentation", "TranslateMe.WPF")]
-[assembly: XmlnsDefinition("http://schemas.microsoft.com/winfx/2008/xaml/presentation", "TranslateMe.WPF")]
-[assembly: XmlnsDefinition("http://schemas.microsoft.com/winfx/2009/xaml/presentation", "TranslateMe.WPF")]
-
 namespace TranslateMe.WPF
 {
     /// <summary>
@@ -32,7 +27,7 @@ namespace TranslateMe.WPF
         public Tr(string defaultText)
         {
             SubscribeToLanguageChange();
-            this.defaultText = defaultText;
+            this.DefaultText = defaultText;
         }
 
         /// <summary>
@@ -40,59 +35,28 @@ namespace TranslateMe.WPF
         /// </summary>
         /// <param name="defaultText">The text to return if no text correspond to textId in the current language</param>
         /// <param name="textId">To force the use of a specific identifier</param>
-        public Tr(string defaultText, string textId)
+        public Tr(string defaultText, string textId) : base()
         {
             SubscribeToLanguageChange();
-            this.textId = textId;
-            this.defaultText = defaultText;
+            this.TextId = textId;
+            this.DefaultText = defaultText;
         }
 
-        public void Dispose()
-        {
-            UnsubscribeFromLanguageChange();
-        }
+        /// <summary>
+        /// To force the use of a specific identifier
+        /// </summary>
+        public virtual string TextId { get; set; } = null;
 
-        private void SubscribeToLanguageChange()
-        {
-            TM.CurrentLanguageChanged += CurrentLanguageChanged;
-        }
-
-        private void UnsubscribeFromLanguageChange()
-        {
-            TM.CurrentLanguageChanged -= CurrentLanguageChanged;
-        }
-
-        private string defaultText = null;
         /// <summary>
         /// The text to return if no text correspond to textId in the current language
         /// </summary>
         [ConstructorArgument("defaultText")]
-        public string DefaultText
-        {
-            get { return defaultText; }
-            set { defaultText = value; }
-        }
+        public string DefaultText { get; set; } = null;
 
-        private string textId = null;
-        /// <summary>
-        /// To force the use of a specific identifier
-        /// The Default TextId is "CurrentNamespace.CurrentClass.CurrentProperty"
-        /// </summary>
-        public string TextId
-        {
-            get { return textId; }
-            set { textId = value; }
-        }
-        
-        private string languageId = null;
         /// <summary>
         /// The language id in which to get the translation. To Specify if not CurrentLanguage
         /// </summary>
-        public string LanguageId
-        {
-            get { return languageId; }
-            set { languageId = value; }
-        }
+        public string LanguageId { get; set; } = null;
 
         private bool isDynamic = true;
         /// <summary>
@@ -109,7 +73,7 @@ namespace TranslateMe.WPF
                 {
                     isDynamic = value;
 
-                    if(isDynamic)
+                    if (isDynamic)
                     {
                         SubscribeToLanguageChange();
                     }
@@ -121,8 +85,15 @@ namespace TranslateMe.WPF
             }
         }
 
-        private FrameworkElement targetObject;
-        private DependencyProperty targetProperty;
+        protected void SubscribeToLanguageChange()
+        {
+            TM.CurrentLanguageChanged += CurrentLanguageChanged;
+        }
+
+        protected void UnsubscribeFromLanguageChange()
+        {
+            TM.CurrentLanguageChanged -= CurrentLanguageChanged;
+        }
 
         private void CurrentLanguageChanged(object sender, TMLanguageChangedEventArgs e)
         {
@@ -131,6 +102,14 @@ namespace TranslateMe.WPF
                 targetObject.SetValue(targetProperty, TM.Tr(TextId, DefaultText, LanguageId));
             }
         }
+
+        public virtual void Dispose()
+        {
+            UnsubscribeFromLanguageChange();
+        }
+
+        private FrameworkElement targetObject;
+        private DependencyProperty targetProperty;
 
         /// <summary>
         /// Translation In Xaml
@@ -144,7 +123,7 @@ namespace TranslateMe.WPF
                 targetObject = ((IProvideValueTarget)serviceProvider).TargetObject as FrameworkElement;
                 targetProperty = ((IProvideValueTarget)serviceProvider).TargetProperty as DependencyProperty;
 
-                if (string.IsNullOrEmpty(textId))
+                if (string.IsNullOrEmpty(TextId))
                 {
                     if (targetObject != null && targetProperty != null)
                     {
@@ -154,7 +133,7 @@ namespace TranslateMe.WPF
 
                         TextId = $"{context}.{obj}.{property}";
                     }
-                    else if(!string.IsNullOrEmpty(DefaultText))
+                    else if (!string.IsNullOrEmpty(DefaultText))
                     {
                         TextId = DefaultText;
                     }
@@ -168,6 +147,5 @@ namespace TranslateMe.WPF
 
             return TM.Tr(TextId, DefaultText, LanguageId);
         }
-
     }
 }

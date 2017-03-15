@@ -60,7 +60,7 @@ Collection<string> languages = TM.Instance.AvailableLanguages;
 
 To see how to do it in XAML look at the "TranslateMe.Examples" project in the solution.
 
-*Remark : By default the translation made in the XAML are automatically updated when Current language changed*
+*Remark : By default the translation made in the XAML are automatically updated when current language changed*
 
 ## OK But... ...How I define my translations ?
 Translations are defined in JSON files with the extension "*.tm.json".
@@ -112,4 +112,13 @@ So you can change the text of your app or translate it in a new language without
 TMLanguagesLoader.AddTranslation("SayHello", "en", "Hello" );
 TMLanguagesLoader.AddTranslation("SayHello", "es", "Hola" );
 TMLanguagesLoader.AddTranslation("SayHello", "fr", "Bonjour" );
+```
+
+## Find Missing Translations
+You can activate an option to generate a file with all missing translations. 
+
+```csharp
+// This will create a file named "TMMissingTranslations.json" in the directory of your assembly
+// with all TextId and LanguageId that are missing when you trying to translate them.
+TM.Instance.LogOutMissingTranslations = true;
 ```

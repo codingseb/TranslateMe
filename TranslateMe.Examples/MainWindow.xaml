@@ -14,7 +14,7 @@
             <Label x:Name="lblCurrentLanguage" 
                    DockPanel.Dock="Left"
                    Margin="0,0,10,0"
-                   Content="{Tr DefaultText='Current Language'}" />
+                   Content="{Tr 'Current Language'}" />
             <ComboBox x:Name="cbLanguageSelection"
                       ItemsSource="{Binding LanguagesManager.AvailableLanguages}" 
                       SelectedItem="{Binding LanguagesManager.CurrentLanguage}">
@@ -41,10 +41,13 @@
                 <Label BorderBrush="Black" 
                        BorderThickness="1" 
                        x:Name="lblHelloInCurrentLanguage" 
-                       Content="{Tr DefaultText='HelloInCurrentLanguage'}"
+                       Content="{Tr 'HelloInCurrentLanguage'}"
                        ToolTip="{Tr}"
                        VerticalAlignment="Center" Margin="5,0"/>
             </StackPanel>
+            <ComboBox ItemsSource="{Binding Labels}" SelectedItem="{Binding Label}" />
+            <Label BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"
+                   Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>
         </StackPanel>
     </DockPanel>
 </Window>
