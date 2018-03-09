@@ -51,7 +51,14 @@ namespace TranslateMe.WPF
         /// The text to return if no text correspond to textId in the current language
         /// </summary>
         [ConstructorArgument("defaultText")]
-        public string DefaultText { get; set; } = null;
+        public string DefaultText
+        {
+            get { return defaultText; }
+            set
+            {
+                defaultText = value.Replace("[apos]", "'");
+            }
+        }
 
         /// <summary>
         /// The language id in which to get the translation. To Specify if not CurrentLanguage
@@ -110,6 +117,7 @@ namespace TranslateMe.WPF
 
         private FrameworkElement targetObject;
         private DependencyProperty targetProperty;
+        private string defaultText = null;
 
         /// <summary>
         /// Translation In Xaml
