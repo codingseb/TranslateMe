@@ -46,7 +46,7 @@ string translatedText = TM.Tr(textId, defaultText, languageId);
 <Label x:Name="lblMyLabel" Content="{Tr 'defaultText', LanguageId='en'}" />
 ```
 
-In general use XML escape to escape special characters. For single quote use ```[apos]``` to escape. XML escape does'nt work in this case for inline Tr. Or use the following format : 
+In general use XML escape to escape special characters. For single quote use ```[apos]``` to escape. XML escape does'nt work in this case for inline Tr markup. Or use the following format : 
 
 ```xml
 <!-- textId can be automatically calculate (with x:Name and the context of the element) -->
