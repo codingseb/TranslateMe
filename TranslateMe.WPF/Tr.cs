@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace TranslateMe.WPF
@@ -8,7 +9,6 @@ namespace TranslateMe.WPF
     /// <summary>
     /// Translate With TranslateMe
     /// </summary>
-    [MarkupExtensionReturnType(typeof(string))]
     public class Tr : MarkupExtension, IDisposable
     {
         private DependencyObject targetObject;
