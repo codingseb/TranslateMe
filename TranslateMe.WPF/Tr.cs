@@ -128,7 +128,11 @@ namespace TranslateMe.WPF
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-                return DefaultText ?? TextId ?? "Translated Text";
+                return new Binding()
+                {
+                    Source = DefaultText ?? TextId ?? "Translated Text",
+                    FallbackValue = DefaultText ?? TextId ?? "Translated Text"
+                };
 
             if (serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget target)
             {

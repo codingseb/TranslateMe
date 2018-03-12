@@ -61,7 +61,7 @@ namespace TranslateMe
             {
                 if(!AvailableLanguages.Contains(value))
                 {
-                    throw new ArgumentException($"The CurrentLanguage Property can not be set to \"{value}\". No corresponding language defined.", "CurrentLanguage");
+                    AvailableLanguages.Add(value);
                 }
 
                 if (!currentLanguage.Equals(value))
