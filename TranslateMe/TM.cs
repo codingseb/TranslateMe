@@ -84,15 +84,7 @@ namespace TranslateMe
         public static event EventHandler<TMLanguageChangingEventArgs> CurrentLanguageChanging;
         public static event EventHandler<TMLanguageChangedEventArgs> CurrentLanguageChanged;
 
-        private SortedDictionary<string, SortedDictionary<string,string>> translationsDictionary = 
-            new SortedDictionary<string, SortedDictionary<string,string>>();
-        public SortedDictionary<string, SortedDictionary<string, string>> TranslationsDictionary
-        {
-            get
-            {
-                return translationsDictionary;
-            }
-        }
+        public SortedDictionary<string, SortedDictionary<string, string>> TranslationsDictionary { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
 
         /// <summary>
         /// Translate the given textId in current language.
