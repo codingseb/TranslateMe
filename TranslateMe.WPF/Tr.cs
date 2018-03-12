@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Markup;
 
@@ -23,19 +24,19 @@ namespace TranslateMe.WPF
         /// Translate the current Property in the current language
         /// The Default TextId is "CurrentNamespace.CurrentClass.CurrentProperty"
         /// </summary>
-        /// <param name="defaultText">The text to return if no text correspond to textId in the current language</param>
-        public Tr(string defaultText)
+        /// <param name="textId">To force the use of a specific identifier</param>
+        public Tr(string textId)
         {
             SubscribeToLanguageChange();
-            this.DefaultText = defaultText;
+            this.TextId = textId;
         }
 
         /// <summary>
         /// Translate Me : Translate in the current language the given textId
         /// </summary>
-        /// <param name="defaultText">The text to return if no text correspond to textId in the current language</param>
         /// <param name="textId">To force the use of a specific identifier</param>
-        public Tr(string defaultText, string textId) : base()
+        /// <param name="defaultText">The text to return if no text correspond to textId in the current language</param>
+        public Tr(string textId, string defaultText) : base()
         {
             SubscribeToLanguageChange();
             this.TextId = textId;
@@ -45,12 +46,12 @@ namespace TranslateMe.WPF
         /// <summary>
         /// To force the use of a specific identifier
         /// </summary>
+        [ConstructorArgument("textId")]
         public virtual string TextId { get; set; } = null;
 
         /// <summary>
         /// The text to return if no text correspond to textId in the current language
         /// </summary>
-        [ConstructorArgument("defaultText")]
         public string DefaultText
         {
             get { return defaultText; }
@@ -115,7 +116,7 @@ namespace TranslateMe.WPF
             UnsubscribeFromLanguageChange();
         }
 
-        private FrameworkElement targetObject;
+        private DependencyObject targetObject;
         private DependencyProperty targetProperty;
         private string defaultText = null;
 
@@ -126,31 +127,41 @@ namespace TranslateMe.WPF
         /// <returns></returns>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            try
+            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget target)
             {
-                targetObject = ((IProvideValueTarget)serviceProvider).TargetObject as FrameworkElement;
-                targetProperty = ((IProvideValueTarget)serviceProvider).TargetProperty as DependencyProperty;
+                if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+                    return DefaultText ?? TextId ?? "Translated Text";
 
-                if (string.IsNullOrEmpty(TextId))
+                if (target.TargetObject.GetType().FullName == "System.Windows.SharedDp" || target.TargetObject is Setter)
+                    return this;
+
+                try
                 {
-                    if (targetObject != null && targetProperty != null)
-                    {
-                        string context = targetObject.GetContextByName();
-                        string obj = targetObject.FormatForTextId();
-                        string property = targetProperty.ToString();
 
-                        TextId = $"{context}.{obj}.{property}";
-                    }
-                    else if (!string.IsNullOrEmpty(DefaultText))
+                    targetObject = target.TargetObject as DependencyObject;
+                    targetProperty = target.TargetProperty as DependencyProperty;
+
+                    if (string.IsNullOrEmpty(TextId))
                     {
-                        TextId = DefaultText;
+                        if (targetObject != null && targetProperty != null)
+                        {
+                            string context = targetObject.GetContextByName();
+                            string obj = targetObject.FormatForTextId();
+                            string property = targetProperty.ToString();
+
+                            TextId = $"{context}.{obj}.{property}";
+                        }
+                        else if (!string.IsNullOrEmpty(DefaultText))
+                        {
+                            TextId = DefaultText;
+                        }
                     }
                 }
-            }
-            catch (InvalidCastException)
-            {
-                // For Xaml Design Time
-                TextId = Guid.NewGuid().ToString();
+                catch (InvalidCastException)
+                {
+                    // For Xaml Design Time
+                    TextId = Guid.NewGuid().ToString();
+                }
             }
 
             return TM.Tr(TextId, DefaultText, LanguageId);
