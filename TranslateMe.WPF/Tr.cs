@@ -11,6 +11,10 @@ namespace TranslateMe.WPF
     [MarkupExtensionReturnType(typeof(string))]
     public class Tr : MarkupExtension, IDisposable
     {
+        private DependencyObject targetObject;
+        private DependencyProperty targetProperty;
+        private string defaultText = null;
+
         /// <summary>
         /// Translate the current Property in the current language
         /// The Default TextId is "CurrentNamespace.CurrentClass.CurrentProperty"
@@ -28,7 +32,7 @@ namespace TranslateMe.WPF
         public Tr(string textId)
         {
             SubscribeToLanguageChange();
-            this.TextId = textId;
+            TextId = textId;
         }
 
         /// <summary>
@@ -39,8 +43,8 @@ namespace TranslateMe.WPF
         public Tr(string textId, string defaultText) : base()
         {
             SubscribeToLanguageChange();
-            this.TextId = textId;
-            this.DefaultText = defaultText;
+            TextId = textId;
+            DefaultText = defaultText;
         }
 
         /// <summary>
@@ -116,10 +120,6 @@ namespace TranslateMe.WPF
             UnsubscribeFromLanguageChange();
         }
 
-        private DependencyObject targetObject;
-        private DependencyProperty targetProperty;
-        private string defaultText = null;
-
         /// <summary>
         /// Translation In Xaml
         /// </summary>
@@ -127,11 +127,11 @@ namespace TranslateMe.WPF
         /// <returns></returns>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+                return DefaultText ?? TextId ?? "Translated Text";
+
             if (serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget target)
             {
-                if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-                    return DefaultText ?? TextId ?? "Translated Text";
-
                 if (target.TargetObject.GetType().FullName == "System.Windows.SharedDp" || target.TargetObject is Setter)
                     return this;
 
