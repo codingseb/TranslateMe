@@ -127,46 +127,48 @@ namespace TranslateMe.WPF
         /// <returns></returns>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-                return new Binding()
-                {
-                    Source = DefaultText ?? TextId ?? "Translated Text",
-                    FallbackValue = DefaultText ?? TextId ?? "Translated Text"
-                };
-
-            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget target)
+            IProvideValueTarget service = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
+            if (service == null)
             {
-                if (target.TargetObject.GetType().FullName == "System.Windows.SharedDp" || target.TargetObject is Setter)
-                    return this;
+                throw new InvalidOperationException("serviceProvider is not a IProvideValueTarget");
+            }
 
-                try
+            targetProperty = service.TargetProperty as DependencyProperty;
+            if (targetProperty == null)
+            {
+                throw new ArgumentException("TargetProperty is not a DependencyProperty");
+            }
+
+            targetObject = service.TargetObject as DependencyObject;
+            if (targetObject == null)
+            {
+                return this;
+            }
+            
+            try
+            {
+                if (string.IsNullOrEmpty(TextId))
                 {
-
-                    targetObject = target.TargetObject as DependencyObject;
-                    targetProperty = target.TargetProperty as DependencyProperty;
-
-                    if (string.IsNullOrEmpty(TextId))
+                    if (targetObject != null && targetProperty != null)
                     {
-                        if (targetObject != null && targetProperty != null)
-                        {
-                            string context = targetObject.GetContextByName();
-                            string obj = targetObject.FormatForTextId();
-                            string property = targetProperty.ToString();
+                        string context = targetObject.GetContextByName();
+                        string obj = targetObject.FormatForTextId();
+                        string property = targetProperty.ToString();
 
-                            TextId = $"{context}.{obj}.{property}";
-                        }
-                        else if (!string.IsNullOrEmpty(DefaultText))
-                        {
-                            TextId = DefaultText;
-                        }
+                        TextId = $"{context}.{obj}.{property}";
+                    }
+                    else if (!string.IsNullOrEmpty(DefaultText))
+                    {
+                        TextId = DefaultText;
                     }
                 }
-                catch (InvalidCastException)
-                {
-                    // For Xaml Design Time
-                    TextId = Guid.NewGuid().ToString();
-                }
             }
+            catch (InvalidCastException)
+            {
+                // For Xaml Design Time
+                TextId = Guid.NewGuid().ToString();
+            }
+
 
             return TM.Tr(TextId, DefaultText, LanguageId);
         }
