@@ -19,14 +19,14 @@ namespace TranslateMe.WPF.Tests
             TMLanguagesLoader.AddTranslation("LanguageName", "fr", "Français");
         }
 
-        [Category("Markup")]
-        [Test]
-        public void TrMarkupTests()
-        {
-            Tr tr = new Tr("Test");
+        //[Category("Markup")]
+        //[Test]
+        //public void TrMarkupTests()
+        //{
+        //    Tr tr = new Tr("Test");
 
-            tr.ProvideValue(new ServiceProviderForTests()).ToString().ShouldEqual("Test");
-        }
+        //    tr.ProvideValue(new ServiceProviderForTests()).ToString().ShouldEqual("Test");
+        //}
 
         [Category("Converter")]
         [Test]
