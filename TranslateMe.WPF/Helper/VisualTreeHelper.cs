@@ -25,7 +25,7 @@ namespace TranslateMe.WPF
                 }
             }
 
-            return string.IsNullOrEmpty(result) ? dependencyObject.FormatForTextId(true) : result;
+            return string.IsNullOrEmpty(result) ? dependencyObject?.FormatForTextId(true) ?? string.Empty : result;
         }
 
         public static string FormatForTextId(this DependencyObject dependencyObject, bool typeFullName = false)
