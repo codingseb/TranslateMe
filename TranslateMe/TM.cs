@@ -81,8 +81,8 @@ namespace TranslateMe
             }
         }
 
-        public static event EventHandler<TMLanguageChangingEventArgs> CurrentLanguageChanging;
-        public static event EventHandler<TMLanguageChangedEventArgs> CurrentLanguageChanged;
+        public event EventHandler<TMLanguageChangingEventArgs> CurrentLanguageChanging;
+        public event EventHandler<TMLanguageChangedEventArgs> CurrentLanguageChanged;
 
         public SortedDictionary<string, SortedDictionary<string, string>> TranslationsDictionary { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
 
@@ -142,12 +142,7 @@ namespace TranslateMe
         /// </summary>
         public bool LogOutMissingTranslations { get; set; } = false;
 
-        private SortedDictionary<string, SortedDictionary<string, string>> missingTranslations = new SortedDictionary<string, SortedDictionary<string, string>>();
-
-        public SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations
-        {
-            get { return missingTranslations; }
-        }
+        public SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
 
         private string missingTranslationsFileName = Path.Combine(
             Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
