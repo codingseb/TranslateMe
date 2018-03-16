@@ -102,12 +102,12 @@ namespace TranslateMe.WPF
 
         protected void SubscribeToLanguageChange()
         {
-            TM.CurrentLanguageChanged += CurrentLanguageChanged;
+            WeakEventManager<TM, TMLanguageChangedEventArgs>.AddHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
         protected void UnsubscribeFromLanguageChange()
         {
-            TM.CurrentLanguageChanged -= CurrentLanguageChanged;
+            WeakEventManager<TM, TMLanguageChangedEventArgs>.RemoveHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
         private void CurrentLanguageChanged(object sender, TMLanguageChangedEventArgs e)

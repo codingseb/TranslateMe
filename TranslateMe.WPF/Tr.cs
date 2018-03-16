@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Reflection;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace TranslateMe.WPF
@@ -99,12 +98,12 @@ namespace TranslateMe.WPF
 
         protected void SubscribeToLanguageChange()
         {
-            TM.CurrentLanguageChanged += CurrentLanguageChanged;
+            WeakEventManager<TM, TMLanguageChangedEventArgs>.AddHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
         protected void UnsubscribeFromLanguageChange()
         {
-            TM.CurrentLanguageChanged -= CurrentLanguageChanged;
+            WeakEventManager<TM, TMLanguageChangedEventArgs>.RemoveHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
         private void CurrentLanguageChanged(object sender, TMLanguageChangedEventArgs e)
@@ -129,22 +128,15 @@ namespace TranslateMe.WPF
         {
             IProvideValueTarget service = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
             if (service == null)
-            {
-                throw new InvalidOperationException("serviceProvider is not a IProvideValueTarget");
-            }
+                return this;
 
             targetProperty = service.TargetProperty as DependencyProperty;
-            if (targetProperty == null)
-            {
-                throw new ArgumentException("TargetProperty is not a DependencyProperty");
-            }
-
             targetObject = service.TargetObject as DependencyObject;
-            if (targetObject == null)
+            if (targetObject == null || targetProperty == null)
             {
                 return this;
             }
-            
+
             try
             {
                 if (string.IsNullOrEmpty(TextId))
