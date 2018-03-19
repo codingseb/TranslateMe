@@ -6,21 +6,16 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace TranslateMe.WPF
+namespace TranslateMe.WPF.Converters
 {
-    /// <summary>
-    /// Converter to Translate a the binding textId (In CurrentLanguage or if specified in LanguageId)
-    /// If Translation don't exist return DefaultText
-    /// Not usable in TwoWay Binding mode.
-    /// </summary>
-    public class TrTextIdConverter : MarkupExtension, IValueConverter
+    public class TrStringFormatMultiValuesConverter : MarkupExtension, IMultiValueConverter
     {
-        public TrTextIdConverter()
+        public TrStringFormatMultiValuesConverter()
         {
             WeakEventManager<TM, TMLanguageChangedEventArgs>.AddHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
-        ~TrTextIdConverter()
+        ~TrStringFormatMultiValuesConverter()
         {
             WeakEventManager<TM, TMLanguageChangedEventArgs>.RemoveHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
         }
@@ -35,15 +30,17 @@ namespace TranslateMe.WPF
         /// </summary>
         public string LanguageId { get; set; } = null;
 
-        private string textId = "";
+        /// <summary>
+        /// To force the use of a specific identifier
+        /// </summary>
+        public virtual string TextId { get; set; } = null;
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            textId = value as string;
-            return string.IsNullOrEmpty(textId) ? "" : TM.Tr(textId, DefaultText, LanguageId);
+            return string.Format(string.IsNullOrEmpty(TextId) ? "" : TM.Tr(TextId, DefaultText, LanguageId), values);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
@@ -71,8 +68,28 @@ namespace TranslateMe.WPF
                 xamlDependencyProperty = xamlProperty.GetType()
                     .GetProperty("DependencyProperty")
                     .GetValue(xamlProperty) as DependencyProperty;
+
+                if (string.IsNullOrEmpty(TextId))
+                {
+                    if (xamlTargetObject != null && xamlDependencyProperty != null)
+                    {
+                        string context = xamlTargetObject.GetContextByName();
+                        string obj = xamlTargetObject.FormatForTextId();
+                        string property = xamlDependencyProperty.ToString();
+
+                        TextId = $"{context}.{obj}.{property}";
+                    }
+                    else if (!string.IsNullOrEmpty(DefaultText))
+                    {
+                        TextId = DefaultText;
+                    }
+                }
             }
-            catch { }
+            catch (InvalidCastException)
+            {
+                // For Xaml Design Time
+                TextId = Guid.NewGuid().ToString();
+            }
 
             return this;
         }

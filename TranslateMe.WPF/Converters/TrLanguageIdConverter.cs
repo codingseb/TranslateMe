@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
@@ -33,8 +36,51 @@ namespace TranslateMe.WPF
             throw new NotImplementedException();
         }
 
+        FrameworkElement xamlTargetObject;
+        DependencyProperty xamlDependencyProperty;
+
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
+            try
+            {
+                var xamlContext = serviceProvider.GetType()
+                    .GetRuntimeFields().ToList()
+                    .Find(f => f.Name.Equals("_xamlContext"))
+                    .GetValue(serviceProvider);
+
+                xamlTargetObject = xamlContext.GetType()
+                    .GetProperty("GrandParentInstance")
+                    .GetValue(xamlContext) as FrameworkElement;
+
+                var xamlProperty = xamlContext.GetType()
+                    .GetProperty("GrandParentProperty")
+                    .GetValue(xamlContext);
+
+                xamlDependencyProperty = xamlProperty.GetType()
+                    .GetProperty("DependencyProperty")
+                    .GetValue(xamlProperty) as DependencyProperty;
+
+                if (string.IsNullOrEmpty(TextId))
+                {
+                    if (xamlTargetObject != null && xamlDependencyProperty != null)
+                    {
+                        string context = xamlTargetObject.GetContextByName();
+                        string obj = xamlTargetObject.FormatForTextId();
+                        string property = xamlDependencyProperty.ToString();
+
+                        TextId = $"{context}.{obj}.{property}";
+                    }
+                    else if (!string.IsNullOrEmpty(DefaultText))
+                    {
+                        TextId = DefaultText;
+                    }
+                }
+            }
+            catch (InvalidCastException)
+            {
+                // For Xaml Design Time
+                TextId = Guid.NewGuid().ToString();
+            }
             return this;
         }
     }
