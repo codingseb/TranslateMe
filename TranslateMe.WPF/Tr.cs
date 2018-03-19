@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace TranslateMe.WPF
@@ -8,7 +9,7 @@ namespace TranslateMe.WPF
     /// <summary>
     /// Translate With TranslateMe
     /// </summary>
-    public class Tr : MarkupExtension, IDisposable
+    public class Tr : MarkupExtension
     {
         private DependencyObject targetObject;
         private DependencyProperty targetProperty;
@@ -19,9 +20,7 @@ namespace TranslateMe.WPF
         /// The Default TextId is "CurrentNamespace.CurrentClass.CurrentProperty"
         /// </summary>
         public Tr()
-        {
-            SubscribeToLanguageChange();
-        }
+        {}
 
         /// <summary>
         /// Translate the current Property in the current language
@@ -30,7 +29,6 @@ namespace TranslateMe.WPF
         /// <param name="textId">To force the use of a specific identifier</param>
         public Tr(string textId)
         {
-            SubscribeToLanguageChange();
             TextId = textId;
         }
 
@@ -41,7 +39,6 @@ namespace TranslateMe.WPF
         /// <param name="defaultText">The text to return if no text correspond to textId in the current language</param>
         public Tr(string textId, string defaultText) : base()
         {
-            SubscribeToLanguageChange();
             TextId = textId;
             DefaultText = defaultText;
         }
@@ -69,55 +66,12 @@ namespace TranslateMe.WPF
         /// </summary>
         public string LanguageId { get; set; } = null;
 
-        private bool isDynamic = true;
         /// <summary>
-        /// If set to true, The text will automatically be update when Current Language Change.
-        /// If not the property must be updated manually.
+        /// If set to true, The text will automatically be update when Current Language Change. (use Binding)
+        /// If not the property must be updated manually (use single string value).
         /// By default is set to true.
         /// </summary>
-        public bool IsDynamic
-        {
-            get { return isDynamic; }
-            set
-            {
-                if (isDynamic != value)
-                {
-                    isDynamic = value;
-
-                    if (isDynamic)
-                    {
-                        SubscribeToLanguageChange();
-                    }
-                    else
-                    {
-                        UnsubscribeFromLanguageChange();
-                    }
-                }
-            }
-        }
-
-        protected void SubscribeToLanguageChange()
-        {
-            WeakEventManager<TM, TMLanguageChangedEventArgs>.AddHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
-        }
-
-        protected void UnsubscribeFromLanguageChange()
-        {
-            WeakEventManager<TM, TMLanguageChangedEventArgs>.RemoveHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
-        }
-
-        private void CurrentLanguageChanged(object sender, TMLanguageChangedEventArgs e)
-        {
-            if (IsDynamic && targetObject != null && targetProperty != null)
-            {
-                targetObject.SetValue(targetProperty, TM.Tr(TextId, DefaultText, LanguageId));
-            }
-        }
-
-        public virtual void Dispose()
-        {
-            UnsubscribeFromLanguageChange();
-        }
+        public bool IsDynamic { get; set; } = true;
 
         /// <summary>
         /// Translation In Xaml
@@ -161,8 +115,26 @@ namespace TranslateMe.WPF
                 TextId = Guid.NewGuid().ToString();
             }
 
+            if (IsDynamic)
+            {
+                Binding binding = new Binding("Translation")
+                {
+                    Source = new TrData()
+                    {
+                        TextId = TextId,
+                        DefaultText = DefaultText,
+                        LanguageId = LanguageId
+                    }
+                };
 
-            return TM.Tr(TextId, DefaultText, LanguageId);
+                BindingOperations.SetBinding(targetObject, targetProperty, binding);
+
+                return binding.ProvideValue(serviceProvider);
+            }
+            else
+            {
+                return TM.Tr(TextId, DefaultText, LanguageId);
+            }
         }
     }
 }

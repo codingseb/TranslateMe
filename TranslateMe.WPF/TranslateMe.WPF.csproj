@@ -50,6 +50,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Converters\TrLanguageIdConverter.cs" />
     <Compile Include="Converters\TrTextIdConverter.cs" />
+    <Compile Include="TrData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TranslateMe\TranslateMe.csproj">
