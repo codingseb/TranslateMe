@@ -43,7 +43,7 @@ namespace TranslateMe.WPF
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string textId = value as string;
+            string textId = value.ToString();
             return string.IsNullOrEmpty(textId) ? "" : TM.Tr(string.Format(TextIdStringFormat, textId), DefaultText, LanguageId);
         }
 

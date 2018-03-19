@@ -29,7 +29,17 @@ namespace TranslateMe.WPF
         /// The text to return if no text correspond to textId in the current language
         /// </summary>
         public string DefaultText { get; set; }
+        
+        /// <summary>
+        /// The language id in which to get the translation. To Specify if not CurrentLanguage
+        /// </summary>
         public string LanguageId { get; set; }
+
+        /// <summary>
+        /// An optional object use as data  that is represented by this translation
+        /// (Example used for Enum values translation)
+        /// </summary>
+        public object Data { get; set; }
 
         /// <summary>
         /// When the current Language changed update the binding (Call OnPropertyChanged)
@@ -38,10 +48,10 @@ namespace TranslateMe.WPF
         /// <param name="e"></param>
         private void CurrentLanguageChanged(object sender, TMLanguageChangedEventArgs e)
         {
-            OnPropertyChanged(nameof(Translation));
+            OnPropertyChanged(nameof(TranslatedText));
         }
 
-        public string Translation
+        public string TranslatedText
         {
             get
             {

@@ -117,7 +117,7 @@ namespace TranslateMe.WPF
 
             if (IsDynamic)
             {
-                Binding binding = new Binding("Translation")
+                Binding binding = new Binding("TranslatedText")
                 {
                     Source = new TrData()
                     {
