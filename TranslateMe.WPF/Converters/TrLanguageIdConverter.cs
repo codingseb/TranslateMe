@@ -18,12 +18,12 @@ namespace TranslateMe.WPF
         /// <summary>
         /// To force the use of a specific identifier
         /// </summary>
+        [ConstructorArgument("textId")]
         public virtual string TextId { get; set; } = null;
 
         /// <summary>
         /// The text to return if no text correspond to textId in the current language
         /// </summary>
-        [ConstructorArgument("defaultText")]
         public string DefaultText { get; set; } = null;
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

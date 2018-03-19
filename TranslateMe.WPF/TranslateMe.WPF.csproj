@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="AddWPFXAMLStandardNameSpace.cs" />
     <Compile Include="Converters\TrStringFormatConverter.cs" />
+    <Compile Include="Converters\TrStringFormatMultiValuesConverter.cs" />
     <Compile Include="Helper\VisualTreeHelper.cs" />
     <Compile Include="Tr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

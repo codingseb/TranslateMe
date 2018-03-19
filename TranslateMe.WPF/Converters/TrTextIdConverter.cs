@@ -35,11 +35,9 @@ namespace TranslateMe.WPF
         /// </summary>
         public string LanguageId { get; set; } = null;
 
-        private string textId = "";
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            textId = value as string;
+            string textId = value as string;
             return string.IsNullOrEmpty(textId) ? "" : TM.Tr(textId, DefaultText, LanguageId);
         }
 

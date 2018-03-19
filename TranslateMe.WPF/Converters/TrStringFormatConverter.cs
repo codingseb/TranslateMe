@@ -6,12 +6,18 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace TranslateMe.WPF.Converters
+namespace TranslateMe.WPF
 {
     public class TrStringFormatConverter : MarkupExtension, IValueConverter
     {
         public TrStringFormatConverter()
         {
+            WeakEventManager<TM, TMLanguageChangedEventArgs>.AddHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+        }
+
+        public TrStringFormatConverter(string textId)
+        {
+            TextId = textId;
             WeakEventManager<TM, TMLanguageChangedEventArgs>.AddHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
@@ -33,7 +39,8 @@ namespace TranslateMe.WPF.Converters
         /// <summary>
         /// To force the use of a specific identifier
         /// </summary>
-        public virtual string TextId { get; set; } = null;
+        [ConstructorArgument("textId")]
+        public string TextId { get; set; } = null;
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
