@@ -1,5 +1,4 @@
 # TranslateMe
-[![translateme MyGet Build Status](https://www.myget.org/BuildSource/Badge/translateme?identifier=6060db76-e2c8-43be-b02e-e37bf48855b2)](https://www.myget.org/)
 
 A C# and WPF apps translation library
 
@@ -39,11 +38,14 @@ string translatedText = TM.Tr(textId, defaultText, languageId);
 
 ```xml
 <!-- textId can be automatically calculate (with x:Name and the context of the element) -->
-<Label x:Name="lbMyLabel" Content="{Tr 'defaultText'}" />
+<Label x:Name="lbMyLabel" Content="{Tr }" />
 <!-- or -> specify a custom textId -->
-<Label x:Name="lblMyLabel" Content="{Tr 'defaultText', TextId='myCustomLabel'}" />
+<Label x:Name="lblMyLabel" Content="{Tr 'textId'}" />
+<!-- or -> specify a default text to show in designer and/or when the text is not translated in the current language-->
+<!-- To escape special character you can use standard xml escapes like &gt; &quot; ... for single quote escape use [apos]
+<Label x:Name="lblMyLabel" Content="{Tr 'textId', DefaultText='my default Text here'}" />
 <!-- or -> force the translationLanguage -->
-<Label x:Name="lblMyLabel" Content="{Tr 'defaultText', LanguageId='en'}" />
+<Label x:Name="lblMyLabel" Content="{Tr 'textId', LanguageId='en'}" />
 ```
 
 In general use XML escape to escape special characters. For single quote use ```[apos]``` to escape. XML escape does'nt work in this case for inline Tr markup. Or use the following format : 
