@@ -28,7 +28,7 @@ namespace TranslateMe.WPF
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return TM.Tr(TextId, DefaultText, value as string);
+            return TM.Tr(TextId, DefaultText.Replace("[apos]", "'"), value as string);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

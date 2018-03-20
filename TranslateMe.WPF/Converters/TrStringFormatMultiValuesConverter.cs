@@ -44,7 +44,7 @@ namespace TranslateMe.WPF
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.Format(string.IsNullOrEmpty(TextId) ? "" : TM.Tr(TextId, DefaultText, LanguageId), values);
+            return string.Format(string.IsNullOrEmpty(TextId) ? "" : TM.Tr(TextId, DefaultText.Replace("[apos]", "'"), LanguageId), values);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
