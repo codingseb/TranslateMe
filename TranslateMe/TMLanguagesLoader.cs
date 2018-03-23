@@ -24,15 +24,21 @@ namespace TranslateMe
         /// <param name="textId">The text to translate identifier</param>
         /// <param name="languageId">The language identifier of the translation</param>
         /// <param name="value">The value of the translated text</param>
-        public void AddTranslation(string textId, string languageId, string value)
+        public void AddTranslation(string textId, string languageId, string value, string source = "")
         {
             if (!tmInstance.TranslationsDictionary.ContainsKey(textId))
-                tmInstance.TranslationsDictionary[textId] = new SortedDictionary<string, string>();
+                tmInstance.TranslationsDictionary[textId] = new SortedDictionary<string, TMTranslation>();
 
             if (!tmInstance.AvailableLanguages.Contains(languageId))
                 tmInstance.AvailableLanguages.Add(languageId);
 
-            tmInstance.TranslationsDictionary[textId][languageId] = value;
+            tmInstance.TranslationsDictionary[textId][languageId] = new TMTranslation()
+            {
+                TextId = textId,
+                LanguageId = languageId,
+                TranslatedText = value,
+                Source = source
+            };
         }
          
         /// <summary>
@@ -55,6 +61,29 @@ namespace TranslateMe
                 {
                     AddFile(fileName);
                 });
+        }
+
+        /// <summary>
+        /// Remove all translation that comes from the specified source
+        /// </summary>
+        /// <param name="source">The fileName or source of the translation</param>
+        public void RemoveAllFromSource(string source)
+        {
+            tmInstance.TranslationsDictionary.Keys.ToList().ForEach(textId =>
+            {
+                tmInstance.TranslationsDictionary[textId].Values.ToList().ForEach(translation =>
+                {
+                    if(translation.Source.Equals(source))
+                    {
+                        tmInstance.TranslationsDictionary[textId].Remove(translation.LanguageId);
+                    }
+                });
+
+                if(tmInstance.TranslationsDictionary[textId].Count == 0)
+                {
+                    tmInstance.TranslationsDictionary.Remove(textId);
+                }
+            });
         }
 
         /// <summary>

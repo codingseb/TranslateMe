@@ -23,7 +23,7 @@ namespace TranslateMe
             {
                 fileDictionnary[textId].Keys.ToList().ForEach(delegate (string languageId)
                 {
-                    mainLoader.AddTranslation(textId, languageId, fileDictionnary[textId][languageId]);
+                    mainLoader.AddTranslation(textId, languageId, fileDictionnary[textId][languageId], fileName);
                 });
             });
         }

@@ -84,7 +84,7 @@ namespace TranslateMe
         public event EventHandler<TMLanguageChangingEventArgs> CurrentLanguageChanging;
         public event EventHandler<TMLanguageChangedEventArgs> CurrentLanguageChanged;
 
-        public SortedDictionary<string, SortedDictionary<string, string>> TranslationsDictionary { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
+        public SortedDictionary<string, SortedDictionary<string, TMTranslation>> TranslationsDictionary { get; } = new SortedDictionary<string, SortedDictionary<string, TMTranslation>>();
 
         /// <summary>
         /// Translate the given textId in current language.
@@ -130,7 +130,7 @@ namespace TranslateMe
             if(TranslationsDictionary.ContainsKey(textId)
                 && TranslationsDictionary[textId].ContainsKey(languageId))
             {
-                result = TranslationsDictionary[textId][languageId];
+                result = TranslationsDictionary[textId][languageId].TranslatedText;
             }
             
             return result;
