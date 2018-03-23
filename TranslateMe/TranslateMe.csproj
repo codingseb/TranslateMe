@@ -47,6 +47,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITMFileLanguageLoader.cs" />
+    <Compile Include="TMJsonFileLanguageLoader.cs" />
     <Compile Include="TMLanguageChangingEventArgs.cs" />
     <Compile Include="TMLanguageChangedEventArgs.cs" />
     <Compile Include="TMLanguagesLoader.cs" />

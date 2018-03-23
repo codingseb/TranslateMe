@@ -1,56 +1,56 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace TranslateMe
 {
-    public static class TMLanguagesLoader
+    public class TMLanguagesLoader
     {
+        TM tmInstance = null;
+
+        public TMLanguagesLoader(TM tmInstance)
+        {
+            this.tmInstance = tmInstance;
+        }
+
+        public List<ITMFileLanguageLoader> FileLanguageLoaders { get; set; } = new List<ITMFileLanguageLoader>()
+        {
+            new TMJsonFileLanguageLoader(),
+        };
+
         /// <summary>
         /// Add a new translation in the languages dictionaries
         /// </summary>
         /// <param name="textId">The text to translate identifier</param>
         /// <param name="languageId">The language identifier of the translation</param>
         /// <param name="value">The value of the translated text</param>
-        public static void AddTranslation(string textId, string languageId, string value)
+        public void AddTranslation(string textId, string languageId, string value)
         {
-            if (!TM.Instance.TranslationsDictionary.ContainsKey(textId))
-                TM.Instance.TranslationsDictionary[textId] = new SortedDictionary<string, string>();
+            if (!tmInstance.TranslationsDictionary.ContainsKey(textId))
+                tmInstance.TranslationsDictionary[textId] = new SortedDictionary<string, string>();
 
-            if (!TM.Instance.AvailableLanguages.Contains(languageId))
-                TM.Instance.AvailableLanguages.Add(languageId);
+            if (!tmInstance.AvailableLanguages.Contains(languageId))
+                tmInstance.AvailableLanguages.Add(languageId);
 
-            TM.Instance.TranslationsDictionary[textId][languageId] = value;
+            tmInstance.TranslationsDictionary[textId][languageId] = value;
         }
          
         /// <summary>
         /// Load the specified file in the Languages dictionnaries
         /// </summary>
         /// <param name="fileName">The filename of the file to load</param>
-        public static void AddFile(string filename)
+        public void AddFile(string fileName)
         {
-            string json = File.ReadAllText(filename);
-
-            SortedDictionary<string, SortedDictionary<string, string>> fileDictionnary =
-                JsonConvert.DeserializeObject<SortedDictionary<string, SortedDictionary<string, string>>>(json);
-
-            fileDictionnary.Keys.ToList().ForEach(delegate (string textId)
-            {
-                fileDictionnary[textId].Keys.ToList().ForEach(delegate (string languageId)
-                {
-                    AddTranslation(textId, languageId,  fileDictionnary[textId][languageId]);
-                });
-            });
+            FileLanguageLoaders.Find(loader => loader.CanLoadFile(fileName))?.LoadFile(fileName, this);
         }
 
         /// <summary>
         /// Load all the language files of the specified directory in the languages dictionnaries
         /// </summary>
         /// <param name="path">The path of the directory to load</param>
-        public static void AddDirectory(string path)
+        public void AddDirectory(string path)
         {
-            Directory.GetFiles(path, "*.tm.json").ToList()
+            Directory.GetFiles(path).ToList()
                 .ForEach(delegate (string fileName)
                 {
                     AddFile(fileName);
@@ -60,7 +60,7 @@ namespace TranslateMe
         /// <summary>
         /// Empty All Dictionnaries
         /// </summary>
-        public static void ClearAllTranslations()
+        public void ClearAllTranslations()
         {
             TM.Instance.TranslationsDictionary.Clear();
             TM.Instance.AvailableLanguages.Clear();
