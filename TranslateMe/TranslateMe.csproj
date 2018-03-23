@@ -54,6 +54,7 @@
     <Compile Include="TMLanguagesLoader.cs" />
     <Compile Include="TM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TMTranslation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
