@@ -36,6 +36,16 @@ namespace TranslateMe.WPF
         public string LanguageId { get; set; }
 
         /// <summary>
+        /// To provide a prefix to add at the begining of the translated text.
+        /// </summary>
+        public string Prefix { get; set; } = string.Empty;
+
+        /// <summary>
+        /// To provide a suffix to add at the end of the translated text.
+        /// </summary>
+        public string Suffix { get; set; } = string.Empty;
+
+        /// <summary>
         /// An optional object use as data  that is represented by this translation
         /// (Example used for Enum values translation)
         /// </summary>
@@ -55,7 +65,7 @@ namespace TranslateMe.WPF
         {
             get
             {
-                return TM.Tr(TextId, DefaultText, LanguageId);
+                return Suffix + TM.Tr(TextId, DefaultText, LanguageId) + Prefix;
             }
         }
 

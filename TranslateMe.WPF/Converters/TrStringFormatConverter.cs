@@ -37,6 +37,16 @@ namespace TranslateMe.WPF
         public string LanguageId { get; set; } = null;
 
         /// <summary>
+        /// To provide a prefix to add at the begining of the translated text.
+        /// </summary>
+        public string Prefix { get; set; } = string.Empty;
+
+        /// <summary>
+        /// To provide a suffix to add at the end of the translated text.
+        /// </summary>
+        public string Suffix { get; set; } = string.Empty;
+
+        /// <summary>
         /// To force the use of a specific identifier
         /// </summary>
         [ConstructorArgument("textId")]
@@ -44,7 +54,7 @@ namespace TranslateMe.WPF
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.Format(string.IsNullOrEmpty(TextId) ? "" : TM.Tr(TextId, DefaultText.Replace("[apos]", "'"), LanguageId), value);
+            return Prefix + string.Format(string.IsNullOrEmpty(TextId) ? "" : TM.Tr(TextId, DefaultText.Replace("[apos]", "'"), LanguageId), value) + Suffix;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

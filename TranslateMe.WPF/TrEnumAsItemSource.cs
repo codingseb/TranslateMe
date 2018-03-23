@@ -30,6 +30,16 @@ namespace TranslateMe.WPF
         /// </summary>
         public string TextIdStringFormat { get; set; } = null;
 
+        /// <summary>
+        /// To provide a prefix to add at the begining of the translated text.
+        /// </summary>
+        public string Prefix { get; set; } = string.Empty;
+
+        /// <summary>
+        /// To provide a suffix to add at the end of the translated text.
+        /// </summary>
+        public string Suffix { get; set; } = string.Empty;
+
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             IProvideValueTarget service = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
@@ -57,7 +67,9 @@ namespace TranslateMe.WPF
                 {
                     Data = e,
                     TextId = string.Format(TextIdStringFormat ?? EnumType.Name + "{0}", e.ToString()),
-                    DefaultText = e.ToString()
+                    DefaultText = e.ToString(),
+                    Prefix = Prefix,
+                    Suffix = Suffix,
                 });
         }
     }

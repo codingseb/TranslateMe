@@ -26,9 +26,19 @@ namespace TranslateMe.WPF
         /// </summary>
         public string DefaultText { get; set; } = null;
 
+        /// <summary>
+        /// To provide a prefix to add at the begining of the translated text.
+        /// </summary>
+        public string Prefix { get; set; } = string.Empty;
+
+        /// <summary>
+        /// To provide a suffix to add at the end of the translated text.
+        /// </summary>
+        public string Suffix { get; set; } = string.Empty;
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return TM.Tr(TextId, DefaultText.Replace("[apos]", "'"), value as string);
+            return Prefix + TM.Tr(TextId, DefaultText.Replace("[apos]", "'"), value as string) + Suffix;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -42,9 +42,19 @@ namespace TranslateMe.WPF
         [ConstructorArgument("textId")]
         public string TextId { get; set; } = null;
 
+        /// <summary>
+        /// To provide a prefix to add at the begining of the translated text.
+        /// </summary>
+        public string Prefix { get; set; } = string.Empty;
+
+        /// <summary>
+        /// To provide a suffix to add at the end of the translated text.
+        /// </summary>
+        public string Suffix { get; set; } = string.Empty;
+
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.Format(string.IsNullOrEmpty(TextId) ? "" : TM.Tr(TextId, DefaultText.Replace("[apos]", "'"), LanguageId), values);
+            return Prefix + string.Format(string.IsNullOrEmpty(TextId) ? "" : TM.Tr(TextId, DefaultText.Replace("[apos]", "'"), LanguageId), values) + Suffix;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

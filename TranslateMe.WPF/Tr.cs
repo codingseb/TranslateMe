@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
@@ -73,6 +74,31 @@ namespace TranslateMe.WPF
         public bool IsDynamic { get; set; } = true;
 
         /// <summary>
+        /// To provide a prefix to add at the begining of the translated text.
+        /// </summary>
+        public string Prefix { get; set; } = string.Empty;
+
+        /// <summary>
+        /// To provide a suffix to add at the end of the translated text.
+        /// </summary>
+        public string Suffix { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Converter to apply on the translated text
+        /// </summary>
+        public IValueConverter Converter { get; set; } = null;
+
+        /// <summary>
+        /// The parameter to pass to the converter
+        /// </summary>
+        public object ConverterParameter { get; set; } = null;
+
+        /// <summary>
+        /// The culture to pass to the converter
+        /// </summary>
+        public CultureInfo ConverterCulture { get; set; } = null;
+
+        /// <summary>
         /// Translation In Xaml
         /// </summary>
         /// <param name="serviceProvider"></param>
@@ -122,9 +148,18 @@ namespace TranslateMe.WPF
                     {
                         TextId = TextId,
                         DefaultText = DefaultText,
-                        LanguageId = LanguageId
+                        LanguageId = LanguageId,
+                        Prefix = Prefix,
+                        Suffix = Suffix
                     }
                 };
+
+                if (Converter != null)
+                {
+                    binding.Converter = Converter;
+                    binding.ConverterParameter = ConverterParameter;
+                    binding.ConverterCulture = ConverterCulture;
+                }
 
                 BindingOperations.SetBinding(targetObject, targetProperty, binding);
 
@@ -132,7 +167,14 @@ namespace TranslateMe.WPF
             }
             else
             {
-                return TM.Tr(TextId, DefaultText, LanguageId);
+                object result = Prefix + TM.Tr(TextId, DefaultText, LanguageId) + Suffix;
+
+                if(Converter != null)
+                {
+                    result = Converter.Convert(result, targetProperty.PropertyType, ConverterParameter, ConverterCulture);
+                }
+
+                return result;
             }
         }
     }

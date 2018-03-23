@@ -41,10 +41,20 @@ namespace TranslateMe.WPF
         /// </summary>
         public string TextIdStringFormat { get; set; } = "{0}";
 
+        /// <summary>
+        /// To provide a prefix to add at the begining of the translated text.
+        /// </summary>
+        public string Prefix { get; set; } = string.Empty;
+
+        /// <summary>
+        /// To provide a suffix to add at the end of the translated text.
+        /// </summary>
+        public string Suffix { get; set; } = string.Empty;
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string textId = value.ToString();
-            return string.IsNullOrEmpty(textId) ? "" : TM.Tr(string.Format(TextIdStringFormat, textId), DefaultText.Replace("[apos]", "'"), LanguageId);
+            return Prefix + (string.IsNullOrEmpty(textId) ? "" : TM.Tr(string.Format(TextIdStringFormat, textId), DefaultText.Replace("[apos]", "'"), LanguageId)) + Suffix;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
