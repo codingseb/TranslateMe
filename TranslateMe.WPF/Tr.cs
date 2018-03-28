@@ -57,7 +57,7 @@ namespace TranslateMe.WPF
             get { return defaultText; }
             set
             {
-                defaultText = value.Replace("[apos]", "'");
+                defaultText = value?.Replace("[apos]", "'");
             }
         }
 

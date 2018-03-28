@@ -15,8 +15,10 @@ namespace TranslateMe.WPF.Tests
         [OneTimeSetUp]
         public void LoadTranslations()
         {
-            TMLanguagesLoader.AddTranslation("LanguageName", "en", "English");
-            TMLanguagesLoader.AddTranslation("LanguageName", "fr", "Français");
+            TMLanguagesLoader loader = new TMLanguagesLoader(TM.Instance);
+
+            loader.AddTranslation("LanguageName", "en", "English");
+            loader.AddTranslation("LanguageName", "fr", "Français");
         }
 
         //[Category("Markup")]

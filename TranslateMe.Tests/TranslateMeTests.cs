@@ -6,11 +6,15 @@ namespace TranslateMe.Tests
     [TestFixture]
     public class TranslateMeTests
     {
+        TMLanguagesLoader loader;
+
         [OneTimeSetUp]
         public void LoadTranslations()
         {
-            TMLanguagesLoader.AddTranslation("SayHello", "en", "Hello");
-            TMLanguagesLoader.AddTranslation("SayHello", "fr", "Bonjour");
+            loader = new TMLanguagesLoader(TM.Instance);
+
+            loader.AddTranslation("SayHello", "en", "Hello");
+            loader.AddTranslation("SayHello", "fr", "Bonjour");
         }
 
         /// <summary>
@@ -32,7 +36,7 @@ namespace TranslateMe.Tests
         [OneTimeTearDown]
         public void ClearDicts()
         {
-            TMLanguagesLoader.ClearAllTranslations();
+            loader.ClearAllTranslations();
         }
     }
 }

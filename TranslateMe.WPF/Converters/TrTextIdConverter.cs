@@ -53,8 +53,8 @@ namespace TranslateMe.WPF
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string textId = value.ToString();
-            return Prefix + (string.IsNullOrEmpty(textId) ? "" : TM.Tr(string.Format(TextIdStringFormat, textId), DefaultText.Replace("[apos]", "'"), LanguageId)) + Suffix;
+            string textId = value?.ToString();
+            return Prefix + (string.IsNullOrEmpty(textId) ? "" : TM.Tr(string.Format(TextIdStringFormat, textId), DefaultText?.Replace("[apos]", "'"), LanguageId)) + Suffix;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -74,15 +74,15 @@ namespace TranslateMe.WPF
                     .Find(f => f.Name.Equals("_xamlContext"))
                     .GetValue(serviceProvider);
 
-                xamlTargetObject = xamlContext.GetType()
+                xamlTargetObject = xamlContext?.GetType()
                     .GetProperty("GrandParentInstance")
                     .GetValue(xamlContext) as FrameworkElement;
 
-                var xamlProperty = xamlContext.GetType()
+                var xamlProperty = xamlContext?.GetType()
                     .GetProperty("GrandParentProperty")
                     .GetValue(xamlContext);
 
-                xamlDependencyProperty = xamlProperty.GetType()
+                xamlDependencyProperty = xamlProperty?.GetType()
                     .GetProperty("DependencyProperty")
                     .GetValue(xamlProperty) as DependencyProperty;
             }

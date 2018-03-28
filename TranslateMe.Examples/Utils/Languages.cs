@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TranslateMe.Examples
 {
@@ -19,7 +14,9 @@ namespace TranslateMe.Examples
         {
             TM.Instance.LogOutMissingTranslations = true;
             string exampleFileFileName = Path.Combine(languagesFilesDirectory, "Example1.tm.json");
-            TMLanguagesLoader.AddFile(exampleFileFileName);
+            TMLanguagesLoader loader = new TMLanguagesLoader(TM.Instance);
+
+            loader.AddFile(exampleFileFileName);
         }
     }
 }
