@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("TranslateMe.WPF")]
 [assembly: AssemblyDescription("Use TranslateMe directly in WPF XAML")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Coding SEB")]
+[assembly: AssemblyCompany("Coding Seb")]
 [assembly: AssemblyProduct("TranslateMe.WPF")]
 [assembly: AssemblyCopyright("Copyright ©  2017 Coding Seb")]
 [assembly: AssemblyTrademark("")]

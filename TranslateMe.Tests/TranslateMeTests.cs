@@ -17,13 +17,8 @@ namespace TranslateMe.Tests
             loader.AddTranslation("SayHello", "fr", "Bonjour");
         }
 
-        /// <summary>
-        /// All static translations tests are in this method because
-        /// of the concurent way of executing tests. 
-        /// This to avoid conflicts between tests
-        /// </summary>
-        [Test]
-        public void StaticBasicTranslations()
+        [TestCase()]
+        public string StaticBasicTranslations(string textId, string defaultText)
         {
             TM.Tr("TestNoTextId", "Test").ShouldEqual("Test");
             TM.Tr("SayHello", "SH").ShouldEqual("Hello");
