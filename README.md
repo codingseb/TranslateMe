@@ -8,7 +8,7 @@ A C# and WPF apps translation library
 |---|---|
 |master|[![Build Status](https://coding-seb.visualstudio.com/_apis/public/build/definitions/6e2bf9e9-7c56-4266-b4d4-748a1cfa263c/3/badge)](https://coding-seb.visualstudio.com/TranslateMe/_build/index?definitionId=3)|
 |dev|[![Dev Status](https://coding-seb.visualstudio.com/_apis/public/build/definitions/6e2bf9e9-7c56-4266-b4d4-748a1cfa263c/4/badge)](https://coding-seb.visualstudio.com/TranslateMe/_build/index?definitionId=4)|
-
+|nuget|[![NuGet Status](http://img.shields.io/nuget/v/TranslateMe.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/TranslateMe/)|
 ## Quick installation
 
 ### With Nuget
