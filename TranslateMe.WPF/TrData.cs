@@ -65,7 +65,7 @@ namespace TranslateMe.WPF
         {
             get
             {
-                return Suffix + TM.Tr(TextId, DefaultText, LanguageId) + Prefix;
+                return Prefix + TM.Tr(TextId, DefaultText, LanguageId) + Suffix ;
             }
         }
 
