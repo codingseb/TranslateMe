@@ -14,7 +14,7 @@
     <copyright>Copyright &#x00A9; Coding Seb.  All rights reserved.</copyright>
     <tags>translation localization wpf missing-translations language xaml json globalization localizing translate localize localizer </tags>
     <dependencies>
-      <dependency id="Newtonsoft.Json" version="9.0.1" />
+      <dependency id="Newtonsoft.Json" version="11.0.2" />
     </dependencies>
   </metadata>
   <files>
