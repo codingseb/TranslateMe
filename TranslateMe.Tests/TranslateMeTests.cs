@@ -17,15 +17,24 @@ namespace TranslateMe.Tests
             loader.AddTranslation("SayHello", "fr", "Bonjour");
         }
 
-        [TestCase()]
-        public string StaticBasicTranslations(string textId, string defaultText)
+        [TestCase("TestNoTextId", "Test", null, null, ExpectedResult = "Test")]
+        [TestCase("SayHello", "SH", null, null, ExpectedResult = "Hello")]
+        [TestCase("SayHello", "SH", "fr", null, ExpectedResult = "Bonjour")]
+        [TestCase("SayHello", "SH", "fr", "en", ExpectedResult = "Hello")]
+        [TestCase("SayHello", "SH", "fr", "es", ExpectedResult = "SH")]
+        public string StaticBasicTranslations(string textId, string defaultText, string currentLanguage, string forceCurrentLanguage)
         {
-            TM.Tr("TestNoTextId", "Test").ShouldEqual("Test");
-            TM.Tr("SayHello", "SH").ShouldEqual("Hello");
-            TM.Instance.CurrentLanguage = "fr";
-            TM.Tr("SayHello", "SH").ShouldEqual("Bonjour");
-            TM.Tr("SayHello", "SH", "en").ShouldEqual("Hello");
-            TM.Tr("SayHello", "SH", "es").ShouldEqual("SH");
+            if(currentLanguage != null)
+                TM.Instance.CurrentLanguage = currentLanguage;
+
+            if (forceCurrentLanguage != null)
+            {
+                return TM.Tr(textId, defaultText, forceCurrentLanguage);
+            }
+            else
+            {
+                return TM.Tr(textId, defaultText);
+            }
         }
 
         [OneTimeTearDown]
