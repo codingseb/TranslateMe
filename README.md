@@ -120,19 +120,29 @@ Here an example :
 And to load it :
 
 ```csharp
-TMLanguagesLoader.AddFile(@"PathToTheFile\Example1.tm.json");
+TMLanguagesLoader.Instance.AddFile(@"PathToTheFile\Example1.tm.json");
 // or load directly a directory with multiple "*.tm.json" files.
-TMLanguagesLoader.AddDirectory(@"PathToTheDirectory");
+TMLanguagesLoader.Instance.AddDirectory(@"PathToTheDirectory");
 ```
 
 So you can change the text of your app or translate it in a new language without recompile all your application.
 
 ```csharp
 // or you can also load a translation by code (textId, languageId, value)
-TMLanguagesLoader.AddTranslation("SayHello", "en", "Hello" );
-TMLanguagesLoader.AddTranslation("SayHello", "es", "Hola" );
-TMLanguagesLoader.AddTranslation("SayHello", "fr", "Bonjour" );
+TMLanguagesLoader.Instance.AddTranslation("SayHello", "en", "Hello" );
+TMLanguagesLoader.Instance.AddTranslation("SayHello", "es", "Hola" );
+TMLanguagesLoader.Instance.AddTranslation("SayHello", "fr", "Bonjour" );
 ```
+
+### Implement your own file format
+If you want to support an other format than json, you can create your custom FileLanguageLoader.
+Simply create a class that implement the ITMFileLanguageLoader interface and add an instance of your class in the FileLanguageLoaders :
+
+```csharp
+TMLanguagesLoader.Instance.FileLanguageLoaders.Add(new YouCustomClassImplementingITMFileLanguageLoader());
+```
+
+Look at the TranslateMe/TMJsonFileLanguageLoader.cs file to see how it works.
 
 ## Find Missing Translations
 You can activate an option to generate a file with all missing translations. 

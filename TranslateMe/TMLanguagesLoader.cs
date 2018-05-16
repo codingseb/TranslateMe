@@ -13,6 +13,21 @@ namespace TranslateMe
             this.tmInstance = tmInstance;
         }
 
+        private static TMLanguagesLoader instance = null;
+
+        public static TMLanguagesLoader Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new TMLanguagesLoader(TM.Instance);
+                }
+
+                return instance;
+            }
+        }
+
         public List<ITMFileLanguageLoader> FileLanguageLoaders { get; set; } = new List<ITMFileLanguageLoader>()
         {
             new TMJsonFileLanguageLoader(),
