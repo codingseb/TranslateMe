@@ -49,7 +49,7 @@ string translatedText = TM.Tr(textId, defaultText, languageId);
 <!-- or -> specify a custom textId -->
 <Label x:Name="lblMyLabel" Content="{Tr 'textId'}" />
 <!-- or -> specify a default text to show in designer and/or when the text is not translated in the current language-->
-<!-- To escape special character you can use standard xml escapes like &gt; &quot; ... for single quote escape use [apos]
+<!-- To escape special character you can use standard xml escapes like &gt; &quot; ... for single quote escape use [apos] -->
 <Label x:Name="lblMyLabel" Content="{Tr 'textId', DefaultText='my default Text here'}" />
 <!-- or -> force the translationLanguage -->
 <Label x:Name="lblMyLabel" Content="{Tr 'textId', LanguageId='en'}" />
