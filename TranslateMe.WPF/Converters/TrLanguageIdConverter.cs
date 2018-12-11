@@ -46,7 +46,7 @@ namespace TranslateMe.WPF
             throw new NotImplementedException();
         }
 
-        FrameworkElement xamlTargetObject;
+        DependencyObject xamlTargetObject;
         DependencyProperty xamlDependencyProperty;
 
         public override object ProvideValue(IServiceProvider serviceProvider)
@@ -60,7 +60,7 @@ namespace TranslateMe.WPF
 
                 xamlTargetObject = xamlContext?.GetType()
                     .GetProperty("GrandParentInstance")
-                    .GetValue(xamlContext) as FrameworkElement;
+                    .GetValue(xamlContext) as DependencyObject;
 
                 var xamlProperty = xamlContext?.GetType()
                     .GetProperty("GrandParentProperty")

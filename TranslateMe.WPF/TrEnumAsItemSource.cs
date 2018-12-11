@@ -42,8 +42,7 @@ namespace TranslateMe.WPF
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            IProvideValueTarget service = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-            if (service == null)
+            if (!(serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget service))
                 return this;
 
             targetProperty = service.TargetProperty as DependencyProperty;

@@ -16,6 +16,8 @@ namespace TranslateMe
     /// </summary>
     public class TM : INotifyPropertyChanged
     {
+        private static readonly object lockObject = new object();
+
         private static TM instance = null;
 
         public static TM Instance
@@ -23,7 +25,15 @@ namespace TranslateMe
             get
             {
                 if (instance == null)
-                    instance = new TM();
+                {
+                    lock (lockObject)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new TM();
+                        }
+                    }
+                }
 
                 return instance;
             }
@@ -34,20 +44,11 @@ namespace TranslateMe
         /// </summary>
         public TM()
         {}
-
-        private ObservableCollection<string> availableLanguages = new ObservableCollection<string>();
+        
         /// <summary>
         /// The List of all availables languages where at least one translation is present.
         /// </summary>
-        public ObservableCollection<string> AvailableLanguages
-        {
-            get
-            {
-                if (availableLanguages == null)
-                    availableLanguages = new ObservableCollection<string>();
-                return availableLanguages;
-            }
-        }
+        public ObservableCollection<string> AvailableLanguages { get; private set; } = new ObservableCollection<string>();
 
         private string currentLanguage = "en";
         /// <summary>
@@ -81,7 +82,15 @@ namespace TranslateMe
             }
         }
 
+        /// <summary>
+        /// Fired when the current language is about to change
+        /// Can be canceled
+        /// </summary>
         public event EventHandler<TMLanguageChangingEventArgs> CurrentLanguageChanging;
+        
+        /// <summary>
+        /// Fired when the current language has changed.
+        /// </summary>
         public event EventHandler<TMLanguageChangedEventArgs> CurrentLanguageChanged;
 
         public SortedDictionary<string, SortedDictionary<string, TMTranslation>> TranslationsDictionary { get; } = new SortedDictionary<string, SortedDictionary<string, TMTranslation>>();
@@ -132,13 +141,14 @@ namespace TranslateMe
             {
                 result = TranslationsDictionary[textId][languageId].TranslatedText;
             }
-            
+
             return result;
         }
 
         /// <summary>
         /// For developpers, for developement and/or debug time.
-        /// If set to <c>True</c> Log Out in a file automatically all textId asked to be translate but missing.
+        /// If set to <c>True</c> Log Out textId asked to be translate but missing in the specified languageId.
+        /// Fill the MissingTranslations Dictionary
         /// </summary>
         public bool LogOutMissingTranslations { get; set; } = false;
 

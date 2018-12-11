@@ -139,7 +139,7 @@ If you want to support an other format than json, you can create your custom Fil
 Simply create a class that implement the ITMFileLanguageLoader interface and add an instance of your class in the FileLanguageLoaders :
 
 ```csharp
-TMLanguagesLoader.Instance.FileLanguageLoaders.Add(new YouCustomClassImplementingITMFileLanguageLoader());
+TMLanguagesLoader.Instance.FileLanguageLoaders.Add(new YourCustomClassImplementingITMFileLanguageLoader());
 ```
 
 Look at the TranslateMe/TMJsonFileLanguageLoader.cs file to see how it works.

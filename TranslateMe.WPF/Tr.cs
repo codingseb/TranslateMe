@@ -33,7 +33,7 @@ namespace TranslateMe.WPF
         }
 
         /// <summary>
-        /// Translate Me : Translate in the current language the given textId
+        /// Translate in the current language the given textId
         /// </summary>
         /// <param name="textId">To force the use of a specific identifier</param>
         /// <param name="defaultText">The text to return if no text correspond to textId in the current language</param>
@@ -105,13 +105,12 @@ namespace TranslateMe.WPF
         /// <returns></returns>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            IProvideValueTarget service = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-            if (service == null)
+            if (!(serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget service))
                 return this;
 
             targetProperty = service.TargetProperty as DependencyProperty;
             targetObject = service.TargetObject as DependencyObject;
-            if (targetObject == null || targetProperty == null)
+            if ((targetObject == null || targetProperty == null) && IsDynamic)
             {
                 return this;
             }
@@ -171,7 +170,7 @@ namespace TranslateMe.WPF
 
                 if(Converter != null)
                 {
-                    result = Converter.Convert(result, targetProperty.PropertyType, ConverterParameter, ConverterCulture);
+                    result = Converter.Convert(result, targetProperty?.PropertyType, ConverterParameter, ConverterCulture);
                 }
 
                 return result;

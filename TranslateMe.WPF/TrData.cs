@@ -12,12 +12,12 @@ namespace TranslateMe.WPF
     {
         public TrData()
         {
-            WeakEventManager<TM, TMLanguageChangedEventArgs>.AddHandler(TM.Instance, "CurrentLanguageChanged", CurrentLanguageChanged);
+            WeakEventManager<TM, TMLanguageChangedEventArgs>.AddHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
         ~TrData()
         {
-            WeakEventManager<TM, TMLanguageChangedEventArgs>.RemoveHandler(TM.Instance, "CurrentLanguageChanged", CurrentLanguageChanged);
+            WeakEventManager<TM, TMLanguageChangedEventArgs>.RemoveHandler(TM.Instance, nameof(TM.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace TranslateMe.WPF
         /// The text to return if no text correspond to textId in the current language
         /// </summary>
         public string DefaultText { get; set; }
-        
+
         /// <summary>
         /// The language id in which to get the translation. To Specify if not CurrentLanguage
         /// </summary>
