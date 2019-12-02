@@ -1,5 +1,7 @@
 # TranslateMe
 
+__Obsolete : replaced by [CodingSeb.Localization](https://github.com/codingseb/Localization)__
+
 A C# and WPF apps translation library
 
 ## Status
